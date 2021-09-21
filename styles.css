@@ -1,0 +1,53 @@
+*{
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.wrapper{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+.top-settings{
+    position: relative;
+    top: 0;
+    left: 0;
+    height: 50px;
+    width: 100%;
+}
+
+.inner-wrapper{
+    position: relative;
+    display: block;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: calc(100% - 50px);
+}
+
+#canvas-wrapper{
+    width: 50%;
+    height: 100%;
+    float: left;
+    overflow-x: scroll;
+    overflow-y: scroll;
+}
+
+#canvas{
+    background-color: darkgrey;
+}
+
+.analitics-wrapper{
+    width: 2.5%;
+    height: 100%;
+    float: left;
+    transition: 1s;
+}
+
+.analitics-wrapper:hover{
+    width: 47.5%;  
+}
