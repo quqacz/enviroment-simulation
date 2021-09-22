@@ -1,38 +1,26 @@
 const canvas = document.querySelector("#canvas");
 const canvasWrapper = document.querySelector("#canvas-wrapper");
+const ctx = canvas.getContext("2d");
 
 const constants = {
     canvasWidth: canvasWrapper.clientWidth,
     canvasHeight: canvasWrapper.clientHeight,
-    mapWidth: 500,
-    mapHeight: 500,
+    mapWidth: 256,
+    mapHeight: 256,
     mapDivisions: 17,
-    mapScale: 4,
+    mapScale: 16,
     terrainOffset: .25,
 }
-
-const map = generateMap(constants.mapWidth, constants.mapHeight);
 
 canvas.width = constants.mapWidth * constants.mapScale;
 canvas.height = constants.mapHeight * constants.mapScale;
 canvas.clientHeight = canvas.height;
 canvas.clientWidth = canvas.width;
 
-const ctx = canvas.getContext("2d");
 
 showMap();
+showCollisionMap();
 
-function generateMap(width, height){
-    let arr = new Array(width);
-
-    for(let i = 0; i < width; i++){
-        arr[i] = new Array(height);
-        for(let j = 0; j < height; j++){
-            arr[i][j] = perlin.get(i / constants.mapDivisions, j / constants.mapDivisions) + constants.terrainOffset;
-        }
-    }
-    return arr;
-}
 
 function showMap(){
     for(let i = 0; i < map.length; i++){
@@ -47,6 +35,17 @@ function showMap(){
                 ctx.fillStyle = "brown";
             }
             ctx.fillRect(i * constants.mapScale, j * constants.mapScale , constants.mapScale, constants.mapScale);
+        }
+    }
+}
+
+function showCollisionMap(){
+    for(let i = 0; i < collisionMap.length; i++){
+        for(let j = 0; j < collisionMap[i].length; j++){
+            if(collisionMap[i][j]){
+                ctx.fillStyle = 'black';
+                ctx.fillRect(i + .25, j + .25, .5, .5);
+            }
         }
     }
 }
