@@ -18,21 +18,19 @@ canvas.clientHeight = canvas.height;
 canvas.clientWidth = canvas.width;
 
 
-// showMap();
-showCollisionMap();
+showMap();
+// showCollisionMap();
 
 
 function showMap(){
+    const tresholds = Object.keys(terrainMapCollors);
     for(let i = 0; i < map.length; i++){
         for(let j = 0; j < map[i].length; j++){
-            if(map[i][j] <= 0){
-                ctx.fillStyle = "blue";
-            }else if(map[i][j] <= .1){
-                ctx.fillStyle = "yellow";
-            }else if(map[i][j] <= .7){
-                ctx.fillStyle = "green";
-            }else{
-                ctx.fillStyle = "brown";
+            for(let c = 0; c < tresholds.length; c++){
+                if(map[i][j] <= tresholds[c]){
+                    ctx.fillStyle = terrainMapCollors[tresholds[c]];
+                    break;
+                }
             }
             ctx.fillRect(i * constants.mapScale, j * constants.mapScale , constants.mapScale, constants.mapScale);
         }
