@@ -8,11 +8,7 @@ fs.readFile('../map.js', (err, data)=>{
     }
     const map = JSON.parse(data.slice(data.indexOf("["), data.length));
 
-    const collisionMap = new Array(map.length * constants.mapScale);
-
-    for(let i = 0; i < map[0].length; i++){
-        collisionMap[i] = new Array(map[i].length * constants.mapScale).fill(0);
-    }
+    const collisionMap = generate2dArray(constants.mapWidth * constants.mapScale, constants.mapHeight * constants.mapScale, 1);
     generateMap(map, collisionMap);
 
     fs.writeFile('../collisionMap.js', 'const collisionMap = ' + JSON.stringify(collisionMap), function(err) {
@@ -24,24 +20,30 @@ fs.readFile('../map.js', (err, data)=>{
 
 
 function generateMap(map, collisionMap){
-    for(let i = 0; i < map.length; i++){
-        for(let j = 0; j < map[i].length; j++){
-            if(map[i][j] >= .0001 && map[i][j] <= .75){
-                for(let k = 0; k < constants.mapScale; k++){
-                    for(let l = 0; l < constants.mapScale; l++){
-                        if(i * constants.mapScale + k >= collisionMap.length || j * constants.mapScale + l >= collisionMap[i].length){
-                            console.log(`i: ${i * constants.mapScale + k} j: ${j * constants.mapScale + l}`)
-                        }
-                        collisionMap[i * constants.mapScale + k][j * constants.mapScale + l] = 1;
+    for(let x = 0; x < map.length; x++){
+        for(let y = 0; y< map[x].length; y++){
+            if(map[x][y] <= .8 && map[x][y] >= .001){
+                for(let dx = 0; dx < constants.mapScale; dx++){
+                    for(let dy = 0; dy< constants.mapScale; dy++){
+                        collisionMap[x * constants.mapScale + dx][y * constants.mapScale + dy] = 1;
                     }
                 }
             }else{
-                for(let k = 0; k < constants.mapScale; k++){
-                    for(let l = 0; l < constants.mapScale; l++){
-                        collisionMap[i * constants.mapScale + k][j * constants.mapScale + l] = 0;
+                for(let dx = 0; dx < constants.mapScale; dx++){
+                    for(let dy = 0; dy< constants.mapScale; dy++){
+                        collisionMap[x * constants.mapScale + dx][y * constants.mapScale + dy] = 0;
                     }
-                }
+                } 
             }
         }
     }
+}
+
+
+function generate2dArray(x, y, f = ''){
+    let arr = new Array(x);
+    for(let i = 0; i < x; i++){
+        arr[i] = new Array(y).fill(f);
+    }
+    return arr;
 }

@@ -7,7 +7,7 @@ const constants = {
     canvasHeight: canvasWrapper.clientHeight,
     mapWidth: 256,
     mapHeight: 256,
-    mapDivisions: 17,
+    mapDivisions: 67,
     mapScale: 16,
     terrainOffset: .25,
 }
@@ -18,7 +18,7 @@ canvas.clientHeight = canvas.height;
 canvas.clientWidth = canvas.width;
 
 
-showMap();
+// showMap();
 showCollisionMap();
 
 
