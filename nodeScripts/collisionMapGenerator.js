@@ -11,7 +11,7 @@ fs.readFile('../map.js', (err, data)=>{
     const map = JSON.parse(data.slice(data.indexOf("["), data.length));
 
     const collisionMap = generate2dArray(constants.mapWidth * constants.mapScale, constants.mapHeight * constants.mapScale, 1);
-    generateMap(map, collisionMap);
+    generateCollisionMap(map, collisionMap);
 
     fs.writeFile('../collisionMap.js', 'const collisionMap = ' + JSON.stringify(collisionMap), function(err) {
         if (err) {
@@ -21,7 +21,7 @@ fs.readFile('../map.js', (err, data)=>{
 });
 
 
-function generateMap(map, collisionMap){
+function generateCollisionMap(map, collisionMap){
     for(let x = 0; x < map.length; x++){
         for(let y = 0; y< map[x].length; y++){
             if(map[x][y] <= .8 && map[x][y] >= .001){

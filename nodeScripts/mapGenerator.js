@@ -4,7 +4,7 @@ const constants = Constants.constants;
 const {perlin} = require("./helperFunctions");
 
 perlin.seed();
-const map = generateMap(constants.mapWidth, constants.mapHeight);
+const map = generateHeightMap(constants.mapWidth, constants.mapHeight);
 
 fs.writeFile('../map.js', 'const map = ' + JSON.stringify(map), function(err) {
    if (err) {
@@ -12,7 +12,7 @@ fs.writeFile('../map.js', 'const map = ' + JSON.stringify(map), function(err) {
    }
 });
 
-function generateMap(width, height){
+function generateHeightMap(width, height){
     let arr = new Array(width);
 
     for(let i = 0; i < width; i++){
