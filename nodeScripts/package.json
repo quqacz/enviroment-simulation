@@ -5,6 +5,7 @@
   "scripts": {
     "buildMap": "node mapGenerator.js",
     "generateCollisionMap": "node collisionMapGenerator.js",
+    "generateFoliageMap": "node foliageMapGenerator.js",
     "build": "run-s buildMap generateCollisionMap exit"
   },
   "keywords": [],

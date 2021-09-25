@@ -4,4 +4,6 @@ module.exports.constants = {
     mapDivisions: 67,
     mapScale: 16,
     terrainOffset: .25,
+    foliageSize: 4,
+    foliageDensity: .96,
 }
