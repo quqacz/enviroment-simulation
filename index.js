@@ -18,9 +18,9 @@ canvas.clientHeight = canvas.height;
 canvas.clientWidth = canvas.width;
 
 
-showMap();
+// showMap();
 // showCollisionMap();
-
+showFoliageMap();
 
 function showMap(){
     const tresholds = Object.keys(terrainMapCollors);
@@ -38,11 +38,22 @@ function showMap(){
 }
 
 function showCollisionMap(){
+    ctx.fillStyle = 'black';
     for(let i = 0; i < collisionMap.length; i++){
         for(let j = 0; j < collisionMap[i].length; j++){
             if(collisionMap[i][j]){
-                ctx.fillStyle = 'black';
                 ctx.fillRect(i + .25, j + .25, .5, .5);
+            }
+        }
+    }
+}
+
+function showFoliageMap(){
+    ctx.fillStyle = 'red';
+    for(let i = 0; i < foliageMap.length; i++){
+        for(let j = 0; j < foliageMap[i].length; j++){
+            if(foliageMap[i][j]){
+                ctx.fillRect(i, j, 1, 1);
             }
         }
     }

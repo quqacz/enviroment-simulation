@@ -1,6 +1,8 @@
 const fs = require("fs");
 const Constants = require("./constants");
 const constants = Constants.constants;
+const {generate2dArray} = require("./helperFunctions");
+
 
 fs.readFile('../map.js', (err, data)=>{
     if (err) {
@@ -37,13 +39,4 @@ function generateMap(map, collisionMap){
             }
         }
     }
-}
-
-
-function generate2dArray(x, y, f = ''){
-    let arr = new Array(x);
-    for(let i = 0; i < x; i++){
-        arr[i] = new Array(y).fill(f);
-    }
-    return arr;
 }
