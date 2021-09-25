@@ -6,6 +6,7 @@
     "buildMap": "node mapGenerator.js",
     "generateCollisionMap": "node collisionMapGenerator.js",
     "generateFoliageMap": "node foliageMapGenerator.js",
+    "blurHeightMapEdges": "node blurHeightMapEdges.js",
     "build": "run-s buildMap generateCollisionMap exit"
   },
   "keywords": [],
