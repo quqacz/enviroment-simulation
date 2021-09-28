@@ -51,23 +51,3 @@ module.exports.perlin = {
         return v;
     }
 }
-
-module.exports.getMapFromFile = (path)=>{
-    let arr;
-    fs.readFile(path, (err, data)=>{
-        if (err) {
-           return console.error(err);
-        }
-        arr = JSON.parse(data.slice(data.indexOf("["), data.length));
-        // arr2 = new Array(mapData.length);
-        // for(let i = 0; i < mapData.length; i++){
-        //     arr2[i] = new Array(mapData[i].length);
-        //     for(let j = 0; j < mapData[i].length; j++)
-        //         arr2[i][j] = mapData[i][j];
-        // }
-        // l.l1 = mapData.length;
-        // l.l2 = mapData[0].length;
-    });
-    console.log(arr.length);
-    return 1;
-}

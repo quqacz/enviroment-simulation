@@ -1,59 +1,86 @@
 const fs = require("fs");
 const Constants = require("./constants");
 const constants = Constants.constants;
-const {generate2dArray, getMapFromFile} = require("./helperFunctions");
+const {generate2dArray} = require("./helperFunctions");
 
 const chunkedMap = generate2dArray((constants.mapWidth * constants.mapScale) / constants.chunkSize, (constants.mapHeight * constants.mapScale) / constants.chunkSize);
 
-let heightMap = getMapFromFile('../map.js');
+let heightMap;
 let collisionMap;
 let foliageMap;
 
-console.table(heightMap);
+fs.readFile('../map.js', (err, data)=>{
+    if (err) {
+       return console.error(err);
+    }
+    heightMap = JSON.parse(data.slice(data.indexOf("["), data.length));
 
-// fs.readFile('../map.js', (err, data)=>{
-//     if (err) {
-//        return console.error(err);
-//     }
-//     heightMap = JSON.parse(data.slice(data.indexOf("["), data.length));
-// });
+    fs.readFile('../collisionMap.js', (err, data)=>{
+        if (err) {
+           return console.error(err);
+        }
+        collisionMap = JSON.parse(data.slice(data.indexOf("["), data.length));
 
-// fs.readFile('../collisionMap.js', (err, data)=>{
-//     if (err) {
-//        return console.error(err);
-//     }
-//     collisionMap = JSON.parse(data.slice(data.indexOf("["), data.length));
-// });
+        fs.readFile('../foliageMap.js', (err, data)=>{
+            if (err) {
+               return console.error(err);
+            }
+            foliageMap = JSON.parse(data.slice(data.indexOf("["), data.length));
 
-// fs.readFile('../foliageMap.js', (err, data)=>{
-//     if (err) {
-//        return console.error(err);
-//     }
-//     foliageMap = JSON.parse(data.slice(data.indexOf("["), data.length));
-// });
+            const chunkedMap = generate2dArray((constants.mapWidth * constants.mapScale) / constants.chunkSize, (constants.mapHeight * constants.mapScale) / constants.chunkSize);
+            
+            for(let i = 0; i < (constants.mapWidth * constants.mapScale) / constants.chunkSize; i+= constants.chunkSize){
+                for(let j = 0; j < (constants.mapHeight * constants.mapScale) / constants.chunkSize; j+= constants.chunkSize){
+                    chunkedMap[i][j] = createChunkData(i, j);
+                }
+            }
 
-// for(let i = 0; i < constants.mapWidth * constants.mapScale; i++){
-//     for(let j = 0; j < constants.mapWidth * constants.mapScale; j++){
+            fs.writeFile('../chunkedMap.js', 'const chunkedMap = ' + JSON.stringify(chunkedMap), function(err) {
+                if (err) {
+                   return console.error(err);
+                }
+             });
+        });
+    });
 
-//     }
-// }
-
-// console.log(heightMap.isArray());
-// createChunkData (10, 0);
+});
 
 function createChunkData(x, y){
-    if(x + constants.chunkSize >= constants.mapWidth * constants.mapScale || y + constants.chunkSize >= constants.mapHeight * constants.mapScale)
-        return;
-    console.log(Math.floor(x / constants.mapScale), Math.floor(constants.chunkSize/constants.mapScale))
+    let chunk = new Chunk();
+    // loop to get information from height map
     for(let i = Math.floor(x / constants.mapScale); i < Math.floor(constants.chunkSize/constants.mapScale); i++){
-        console.log(heightMap[i][0]);
+        for(let j = Math.floor(y / constants.mapScale); j < Math.floor(constants.chunkSize/constants.mapScale); j++){
+
+            // loop for scale factor
+            for(let k = 0; k < constants.mapScale; k++){
+                for(let l = 0; l < constants.mapScale; l++){
+                    chunk.heightMap[i * constants.mapScale + k][j * constants.mapScale + l] = heightMap[i][j];
+                }
+            }
+        }
     }
+
+    // loop to generate collision map data
+    for(let i = 0; i < constants.chunkSize; i++){
+        for(let j = 0; j < constants.chunkSize; j++){
+            chunk.collisionMap[x + i][y + j] = collisionMap[i + x][j + y];
+        }
+    }
+
+    // loop to generate foliage map data
+    for(let i = 0; i < constants.chunkSize; i++){
+        for(let j = 0; j < constants.chunkSize; j++){
+            chunk.foliageMap[x + i][y + j] = foliageMap[i + x][j + y];
+        }
+    }
+    
+    return chunk;
 }
 
 class Chunk{
-    constructor(chunkSize){
-        this.foliageMap = generate2dArray(chunkSize);
-        this.collisionMap = generate2dArray(chunkSize);
-        this.heightMap = generate2dArray(chunkSize);
+    constructor(){
+        this.foliageMap = generate2dArray(constants.chunkSize, constants.chunkSize);
+        this.collisionMap = generate2dArray(constants.chunkSize, constants.chunkSize);
+        this.heightMap = generate2dArray(constants.chunkSize, constants.chunkSize);
     }
 }
