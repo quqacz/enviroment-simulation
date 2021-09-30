@@ -29,8 +29,10 @@ fs.readFile('../map.js', (err, data)=>{
 
             const chunkedMap = generate2dArray((constants.mapWidth * constants.mapScale) / constants.chunkSize, (constants.mapHeight * constants.mapScale) / constants.chunkSize);
             
-            for(let i = 0; i < (constants.mapWidth * constants.mapScale) / constants.chunkSize; i+= constants.chunkSize){
-                for(let j = 0; j < (constants.mapHeight * constants.mapScale) / constants.chunkSize; j+= constants.chunkSize){
+            console.log(collisionMap[0].length)
+
+            for(let i = 0; i < (constants.mapWidth * constants.mapScale) / constants.chunkSize; i++){
+                for(let j = 0; j < (constants.mapHeight * constants.mapScale) / constants.chunkSize; j++){
                     chunkedMap[i][j] = createChunkData(i, j);
                 }
             }
@@ -48,8 +50,8 @@ fs.readFile('../map.js', (err, data)=>{
 function createChunkData(x, y){
     let chunk = new Chunk();
     // loop to get information from height map
-    for(let i = Math.floor(x / constants.mapScale); i < Math.floor(constants.chunkSize/constants.mapScale); i++){
-        for(let j = Math.floor(y / constants.mapScale); j < Math.floor(constants.chunkSize/constants.mapScale); j++){
+    for(let i = x; i < Math.floor(constants.chunkSize/constants.mapScale); i++){
+        for(let j = y; j < Math.floor(constants.chunkSize/constants.mapScale); j++){
 
             // loop for scale factor
             for(let k = 0; k < constants.mapScale; k++){
@@ -60,19 +62,19 @@ function createChunkData(x, y){
         }
     }
 
-    // loop to generate collision map data
-    for(let i = 0; i < constants.chunkSize; i++){
-        for(let j = 0; j < constants.chunkSize; j++){
-            chunk.collisionMap[x + i][y + j] = collisionMap[i + x][j + y];
-        }
-    }
+    // // loop to generate collision map data
+    // for(let i = 0; i < constants.chunkSize; i++){
+    //     for(let j = 0; j < constants.chunkSize; j++){
+    //         chunk.collisionMap[x + i][y + j] = collisionMap[i + x][j + y];
+    //     }
+    // }
 
-    // loop to generate foliage map data
-    for(let i = 0; i < constants.chunkSize; i++){
-        for(let j = 0; j < constants.chunkSize; j++){
-            chunk.foliageMap[x + i][y + j] = foliageMap[i + x][j + y];
-        }
-    }
+    // // loop to generate foliage map data
+    // for(let i = 0; i < constants.chunkSize; i++){
+    //     for(let j = 0; j < constants.chunkSize; j++){
+    //         chunk.foliageMap[x + i][y + j] = foliageMap[i + x][j + y];
+    //     }
+    // }
     
     return chunk;
 }
