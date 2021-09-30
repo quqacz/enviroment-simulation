@@ -27,15 +27,16 @@ fs.readFile('../map.js', (err, data)=>{
             }
             foliageMap = JSON.parse(data.slice(data.indexOf("["), data.length));
 
-            const chunkedMap = generate2dArray((constants.mapWidth * constants.mapScale) / constants.chunkSize, (constants.mapHeight * constants.mapScale) / constants.chunkSize);
-            
-            console.log(collisionMap[0].length)
+            const chunkedMapWidth = (constants.mapWidth * constants.mapScale) / constants.chunkSize;
+            const chunkedMapHeight = (constants.mapHeight * constants.mapScale) / constants.chunkSize;
 
-            for(let i = 0; i < (constants.mapWidth * constants.mapScale) / constants.chunkSize; i++){
-                for(let j = 0; j < (constants.mapHeight * constants.mapScale) / constants.chunkSize; j++){
-                    chunkedMap[i][j] = createChunkData(i, j);
-                }
-            }
+            const chunkedMap = generate2dArray(chunkedMapWidth, chunkedMapHeight);
+
+            // for(let i = 0; i < chunkedMapWidth; i++){
+            //     for(let j = 0; j < chunkedMapHeight; j++){
+                    chunkedMap[1][1] = createChunkData(1, 1);
+            //     }
+            // }
 
             fs.writeFile('../chunkedMap.js', 'const chunkedMap = ' + JSON.stringify(chunkedMap), function(err) {
                 if (err) {
@@ -49,14 +50,15 @@ fs.readFile('../map.js', (err, data)=>{
 
 function createChunkData(x, y){
     let chunk = new Chunk();
+    
     // loop to get information from height map
-    for(let i = x; i < Math.floor(constants.chunkSize/constants.mapScale); i++){
-        for(let j = y; j < Math.floor(constants.chunkSize/constants.mapScale); j++){
-
+    for(let i = x * constants.mapScale; i < Math.floor(constants.chunkSize/constants.mapScale); i++){
+        for(let j = y * constants.mapScale; j < Math.floor(constants.chunkSize/constants.mapScale); j++){
+            console.log(i, j);
             // loop for scale factor
             for(let k = 0; k < constants.mapScale; k++){
                 for(let l = 0; l < constants.mapScale; l++){
-                    chunk.heightMap[i * constants.mapScale + k][j * constants.mapScale + l] = heightMap[i][j];
+                    chunk.heightMap[i + k][j + l] = heightMap[i][j];
                 }
             }
         }
