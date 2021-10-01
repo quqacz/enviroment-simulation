@@ -21,51 +21,40 @@ canvas.clientWidth = canvas.width;
 
 // showMap();
 // showCollisionMap();
-showFoliageMap();
+// showFoliageMap();
 
 function showMap(){
-    const tresholds = Object.keys(terrainMapCollors);
-    for(let i = 0; i < map.length; i++){
-        for(let j = 0; j < map[i].length; j++){
+    for(let i = 0; i < (constants.mapWidth * constants.mapHeight) / constants.chunkSize; i++){
+        for(let j = 0; j < (constants.mapWidth * constants.mapHeight) / constants.chunkSize; j++){
+            showChunk(i, j);
+        }
+    }
+}
+
+function showChunk(x, y){
+    for(let i = 0; i < constants.chunkSize; i++){
+        for(let j = 0; j < constants.chunkSize; j++){
+            
+            // loop to fill color of height map
+            const tresholds = Object.keys(terrainMapCollors);
             for(let c = 0; c < tresholds.length; c++){
-                if(map[i][j] <= tresholds[c]){
+                if(chunkedMap[x][y].heightMap[i][j] <= tresholds[c]){
                     ctx.fillStyle = terrainMapCollors[tresholds[c]];
                     break;
                 }
             }
-            ctx.fillRect(i, j , 1, 1);
-        }
-    }
-}
+            ctx.fillRect(x * constants.chunkSize + i, y * constants.chunkSize + j, 1, 1);
 
-function showCollisionMap(){
-    ctx.fillStyle = 'black';
-    for(let i = 0; i < collisionMap.length; i++){
-        for(let j = 0; j < collisionMap[i].length; j++){
-            if(collisionMap[i][j]){
-                ctx.fillRect(i + .25, j + .25, .5, .5);
+
+            // if(chunkedMap[x][y].collisionMap[i][j]){
+            //     ctx.fillStyle = 'black';  
+            //     ctx.fillRect(x * constants.chunkSize + i + .25, y * constants.chunkSize + j + .25, .5, .5);
+            // }
+
+            if(chunkedMap[x][y].foliageMap[i][j]){
+                ctx.fillStyle = 'red';
+                ctx.fillRect(x * constants.chunkSize + i, y * constants.chunkSize + j, 1, 1);
             }
-        }
-    }
-}
-
-function showFoliageMap(){
-    ctx.fillStyle = 'red';
-    for(let i = 0; i < foliageMap.length; i++){
-        for(let j = 0; j < foliageMap[i].length; j++){
-            if(foliageMap[i][j]){
-                ctx.fillRect(i, j, 1, 1);
-            }
-        }
-    }
-}
-
-function showChunks(x, y){
-    if(x < 0 || x > chunkedMap.heightMap.length || y < 0 || y > chunkedMap.heightMap.length){
-        return;
-    }
-
-    for(let i = 0; i < chunkedMap[x][y].heightMap.length; i++){
-        
+        } 
     }
 }

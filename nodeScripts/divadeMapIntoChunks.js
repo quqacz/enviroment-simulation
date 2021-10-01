@@ -31,8 +31,8 @@ fs.readFile('../map.js', (err, data)=>{
             const chunkedMapHeight = (constants.mapHeight * constants.mapScale) / constants.chunkSize;
 
             const chunkedMap = generate2dArray(chunkedMapWidth, chunkedMapHeight);
-            for(let i = 0; i < chunkedMapWidth - 1; i++){
-                for(let j = 0; j < chunkedMapHeight - 1; j++){
+            for(let i = 0; i < chunkedMapWidth; i++){
+                for(let j = 0; j < chunkedMapHeight; j++){
                     chunkedMap[i][j] = createChunkData(i, j);
                 }
             }
