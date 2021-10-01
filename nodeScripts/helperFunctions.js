@@ -1,4 +1,6 @@
-module.exports.generate2dArray = (width, height, fill='')=>{
+const fs = require('fs');
+
+module.exports.generate2dArray = (width, height, fill=undefined)=>{
     let arr = new Array(width);
     for(let i = 0; i < width; i++){
         arr[i] = new Array(height).fill(fill);
