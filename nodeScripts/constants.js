@@ -6,4 +6,5 @@ module.exports.constants = {
     terrainOffset: .25,
     foliageSize: 4,
     foliageDensity: .96,
+    chunkSize: 64,
 }
