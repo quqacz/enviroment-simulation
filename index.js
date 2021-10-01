@@ -19,13 +19,13 @@ canvas.clientHeight = canvas.height;
 canvas.clientWidth = canvas.width;
 
 
-// showMap();
+showMap();
 // showCollisionMap();
 // showFoliageMap();
 
 function showMap(){
-    for(let i = 0; i < (constants.mapWidth * constants.mapHeight) / constants.chunkSize; i++){
-        for(let j = 0; j < (constants.mapWidth * constants.mapHeight) / constants.chunkSize; j++){
+    for(let i = 0; i < chunkedMap.length; i++){
+        for(let j = 0; j < chunkedMap[i].length; j++){
             showChunk(i, j);
         }
     }
