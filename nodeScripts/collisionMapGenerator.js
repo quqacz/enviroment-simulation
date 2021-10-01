@@ -25,9 +25,9 @@ function generateMap(map, collisionMap){
     for(let x = 0; x < map.length; x++){
         for(let y = 0; y< map[x].length; y++){
             if(map[x][y] <= .8 && map[x][y] >= .001){
-                collisionMap[x * constants.mapScale][y * constants.mapScale] = 1;
+                collisionMap[x][y] = 1;
             }else{  
-                collisionMap[x * constants.mapScale][y * constants.mapScale] = 0;
+                collisionMap[x][y] = 0;
             }
         }
     }
