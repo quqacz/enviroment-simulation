@@ -6,7 +6,9 @@
     "buildMap": "node mapGenerator.js",
     "generateCollisionMap": "node collisionMapGenerator.js",
     "generateFoliageMap": "node foliageMapGenerator.js",
-    "build": "run-s buildMap generateCollisionMap exit"
+    "divadeMapIntoChunks": "node divadeMapIntoChunks.js",
+    "clearExcessFiles": "node cleaner.js",
+    "build": "npm run buildMap && npm run generateCollisionMap && npm run generateFoliageMap && npm run divadeMapIntoChunks && npm run clearExcessFiles"
   },
   "keywords": [],
   "author": "",
