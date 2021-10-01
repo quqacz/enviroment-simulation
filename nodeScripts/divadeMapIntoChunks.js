@@ -32,11 +32,11 @@ fs.readFile('../map.js', (err, data)=>{
 
             const chunkedMap = generate2dArray(chunkedMapWidth, chunkedMapHeight);
 
-            // for(let i = 0; i < chunkedMapWidth; i++){
-            //     for(let j = 0; j < chunkedMapHeight; j++){
-                    chunkedMap[1][1] = createChunkData(1, 1);
-            //     }
-            // }
+            for(let i = 0; i < 5; i++){
+                for(let j = 0; j < 5; j++){
+                    chunkedMap[i][j] = createChunkData(i, j);
+                }
+            }
 
             fs.writeFile('../chunkedMap.js', 'const chunkedMap = ' + JSON.stringify(chunkedMap), function(err) {
                 if (err) {
@@ -50,15 +50,15 @@ fs.readFile('../map.js', (err, data)=>{
 
 function createChunkData(x, y){
     let chunk = new Chunk();
-    
+    let mapOffset = constants.chunkSize / constants.mapScale;
+    console.log(mapOffset);
     // loop to get information from height map
-    for(let i = x * constants.mapScale; i < Math.floor(constants.chunkSize/constants.mapScale); i++){
-        for(let j = y * constants.mapScale; j < Math.floor(constants.chunkSize/constants.mapScale); j++){
-            console.log(i, j);
+    for(let i = 0; i < mapOffset; i++){
+        for(let j = 0; j < mapOffset; j++){
             // loop for scale factor
             for(let k = 0; k < constants.mapScale; k++){
                 for(let l = 0; l < constants.mapScale; l++){
-                    chunk.heightMap[i + k][j + l] = heightMap[i][j];
+                    chunk.heightMap[i * x + k][j * x + l] = heightMap[i][j];
                 }
             }
         }

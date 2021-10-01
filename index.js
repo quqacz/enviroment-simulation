@@ -10,6 +10,7 @@ const constants = {
     mapDivisions: 67,
     mapScale: 16,
     terrainOffset: .25,
+    chunkSize: 64,
 }
 
 canvas.width = constants.mapWidth * constants.mapScale;
@@ -32,7 +33,7 @@ function showMap(){
                     break;
                 }
             }
-            ctx.fillRect(i * constants.mapScale, j * constants.mapScale , constants.mapScale, constants.mapScale);
+            ctx.fillRect(i, j , 1, 1);
         }
     }
 }
@@ -56,5 +57,15 @@ function showFoliageMap(){
                 ctx.fillRect(i, j, 1, 1);
             }
         }
+    }
+}
+
+function showChunks(x, y){
+    if(x < 0 || x > chunkedMap.heightMap.length || y < 0 || y > chunkedMap.heightMap.length){
+        return;
+    }
+
+    for(let i = 0; i < chunkedMap[x][y].heightMap.length; i++){
+        
     }
 }

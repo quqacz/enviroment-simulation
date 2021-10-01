@@ -25,17 +25,9 @@ function generateMap(map, collisionMap){
     for(let x = 0; x < map.length; x++){
         for(let y = 0; y< map[x].length; y++){
             if(map[x][y] <= .8 && map[x][y] >= .001){
-                for(let dx = 0; dx < constants.mapScale; dx++){
-                    for(let dy = 0; dy< constants.mapScale; dy++){
-                        collisionMap[x * constants.mapScale + dx][y * constants.mapScale + dy] = 1;
-                    }
-                }
-            }else{
-                for(let dx = 0; dx < constants.mapScale; dx++){
-                    for(let dy = 0; dy< constants.mapScale; dy++){
-                        collisionMap[x * constants.mapScale + dx][y * constants.mapScale + dy] = 0;
-                    }
-                } 
+                collisionMap[x * constants.mapScale][y * constants.mapScale] = 1;
+            }else{  
+                collisionMap[x * constants.mapScale][y * constants.mapScale] = 0;
             }
         }
     }
